@@ -1,9 +1,21 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { pokemonListReducer } from '../reducers/pokemonListReducer';
+import {
+  pokemonDetailsReducer,
+  PokemonsDetailsState,
+} from '../reducers/pokemonDetailsReducer';
+import {
+  pokemonListReducer,
+  PokemonsState,
+} from '../reducers/pokemonListReducer';
+
+export interface RootReducerState {
+  list: PokemonsState;
+  details: PokemonsDetailsState;
+}
 
 export const store = createStore(
-  pokemonListReducer,
+  combineReducers({ list: pokemonListReducer, details: pokemonDetailsReducer }),
   composeWithDevTools(applyMiddleware(thunk)),
 );

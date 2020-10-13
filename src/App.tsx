@@ -1,26 +1,24 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadPokemonList } from './actions/pokemonListActions';
 import './App.css';
 import { PokemonsList } from './components/PokemonList';
-import { PokemonsState } from './reducers/pokemonListReducer';
+import { RootReducerState } from './store/store';
 
 const App: FC = () => {
   const dispatch = useDispatch();
-  const pokemonsListData = useSelector((state: PokemonsState) => state.data);
+  const pokemonsListData = useSelector(
+    (state: RootReducerState) => state.list.data,
+  );
 
   const fetchData = (page: number = 1) => {
-    console.log(page);
-
     dispatch(loadPokemonList(page));
   };
 
-  if (!pokemonsListData) {
+  useEffect(() => {
     fetchData();
-  }
-
-  console.log(pokemonsListData);
+  }, []);
 
   return (
     <div className="App">
