@@ -8,6 +8,7 @@ import { RootReducerState } from './store/store';
 
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { PokemonDetails } from './components/PokemonDetails';
+import { Search } from './components/Search';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const App: FC = () => {
       <Router>
         <Switch>
           <Route exact path="/">
+            <Search />
             {pokemonsListData ? (
               <PokemonsList data={pokemonsListData} />
             ) : (
