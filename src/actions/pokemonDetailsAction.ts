@@ -11,7 +11,7 @@ export interface GetPokemonDetailsAction {
 export type PokemonDetailsActions = GetPokemonDetailsAction;
 
 export const loadPokemonDetails = (
-  url: string,
+  name: string,
 ): ThunkAction<
   void,
   typeof pokemonDetailsReducer,
@@ -20,7 +20,7 @@ export const loadPokemonDetails = (
 > => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${url}`);
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
       const responseData: ServerResponseDetails = await response.json();
 
       dispatch({

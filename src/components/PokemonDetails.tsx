@@ -1,24 +1,28 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { loadPokemonDetails } from '../actions/pokemonDetailsAction';
 import { RootReducerState } from '../store/store';
 
 interface PokemonDetailsProps {
-  url: string;
+  name: string;
 }
 
-export const PokemonDetails: FC<PokemonDetailsProps> = ({ url }) => {
+export const PokemonDetails: FC = () => {
+  const { name } = useParams<PokemonDetailsProps>();
+  console.log(name);
+
   const dispatch = useDispatch();
   const pokemonDetailsData = useSelector(
     (state: RootReducerState) => state.details.data,
   );
 
-  const fetchData = (url: string) => {
-    dispatch(loadPokemonDetails(url));
+  const fetchData = (name: string) => {
+    dispatch(loadPokemonDetails(name));
   };
 
   useEffect(() => {
-    fetchData(url);
+    fetchData(name);
   }, []);
 
   return (

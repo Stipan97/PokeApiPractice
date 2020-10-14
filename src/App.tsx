@@ -6,6 +6,9 @@ import './App.css';
 import { PokemonsList } from './components/PokemonList';
 import { RootReducerState } from './store/store';
 
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { PokemonDetails } from './components/PokemonDetails';
+
 const App: FC = () => {
   const dispatch = useDispatch();
   const pokemonsListData = useSelector(
@@ -22,18 +25,27 @@ const App: FC = () => {
 
   return (
     <div className="App">
-      {pokemonsListData ? (
-        <PokemonsList data={pokemonsListData} />
-      ) : (
-        <h2>Loading...</h2>
-      )}
-      <ReactPaginate
-        pageCount={Math.ceil(pokemonsListData?.count! / 15)}
-        pageRangeDisplayed={2}
-        marginPagesDisplayed={1}
-        onPageChange={(data) => fetchData(data.selected + 1)}
-        containerClassName={'pagination'}
-      />
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            {pokemonsListData ? (
+              <PokemonsList data={pokemonsListData} />
+            ) : (
+              <h2>Loading...</h2>
+            )}
+            <ReactPaginate
+              pageCount={Math.ceil(pokemonsListData?.count! / 15)}
+              pageRangeDisplayed={2}
+              marginPagesDisplayed={1}
+              onPageChange={(data) => fetchData(data.selected + 1)}
+              containerClassName={'pagination'}
+            />
+          </Route>
+          <Route path="/pokemon/:name">
+            <PokemonDetails />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 };
