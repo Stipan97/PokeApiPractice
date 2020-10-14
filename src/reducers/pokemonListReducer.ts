@@ -8,8 +8,6 @@ import {
 
 export interface ServerResponse {
   count?: number;
-  next?: string;
-  previous?: boolean;
   results?: Pokemon[];
 }
 
