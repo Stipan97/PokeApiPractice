@@ -23,8 +23,8 @@ interface PokemonAbilities {
 }
 
 interface PokemonSprite {
-  back: string;
-  front: string;
+  back_default: string;
+  front_default: string;
 }
 
 interface PokemonStats {
