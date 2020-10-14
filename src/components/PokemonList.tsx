@@ -1,11 +1,7 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 import { FC } from 'react';
-import { Provider } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ServerResponse } from '../reducers/pokemonListReducer';
-import { store } from '../store/store';
-import { PokemonDetails } from './PokemonDetails';
 
 interface PokemonsListProps {
   data: ServerResponse;
