@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { loadPokemonDetails } from '../actions/pokemonDetailsAction';
@@ -21,15 +21,12 @@ export const PokemonDetails: FC = () => {
     return obj.name === name;
   });
 
-  console.log(pokemonDetailsData);
-
   const fetchData = (name: string) => {
     console.log('pozvo ' + name);
 
     dispatch(loadPokemonDetails(name));
   };
 
-  console.log(pokemonDetailsState.error);
   if (!pokemonDetailsState.error) {
     if (!pokemonDetail) {
       if (!pokemonDetailsState.isLoading) {
