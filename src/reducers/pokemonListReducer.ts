@@ -37,13 +37,14 @@ export const pokemonListReducer = (
     }
     case SET_LOADING_LIST: {
       return {
-        ...state,
+        data: state.data,
         isLoading: true,
+        error: '',
       };
     }
     case SET_ERROR_LIST: {
       return {
-        ...state,
+        data: state.data,
         error: action.payload,
         isLoading: false,
       };

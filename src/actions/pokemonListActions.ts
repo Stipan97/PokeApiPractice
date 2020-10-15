@@ -34,6 +34,10 @@ export const loadPokemonList = (
     const limit = 15;
     const offset = page * limit - limit;
     try {
+      dispatch({
+        type: SET_LOADING_LIST,
+      });
+
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`,
       );
