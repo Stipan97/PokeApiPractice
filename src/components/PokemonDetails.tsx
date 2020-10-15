@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { loadPokemonDetails } from '../actions/pokemonDetailsAction';
@@ -10,41 +10,54 @@ interface PokemonDetailsProps {
 
 export const PokemonDetails: FC = () => {
   const { name } = useParams<PokemonDetailsProps>();
-  console.log(name);
 
   const dispatch = useDispatch();
-  const pokemonDetailsData = useSelector(
-    (state: RootReducerState) => state.details.data,
+  const pokemonDetailsState = useSelector(
+    (state: RootReducerState) => state.details,
   );
+  const pokemonDetailsData = pokemonDetailsState.data;
+
+  let pokemonDetail = pokemonDetailsData?.find((obj) => {
+    return obj.name === name;
+  });
 
   const fetchData = (name: string) => {
+    console.log('pozvo ' + name);
+
     dispatch(loadPokemonDetails(name));
   };
 
-  useEffect(() => {
-    fetchData(name);
-  }, []);
+  if (!pokemonDetailsState.error) {
+    if (!pokemonDetail) {
+      if (!pokemonDetailsState.isLoading) {
+        fetchData(name);
+      }
+    }
+  }
 
   return (
     <div>
-      <div>{pokemonDetailsData?.name}</div>
-      <div>
-        <img
-          src={pokemonDetailsData?.sprites.front_default}
-          alt="front sprite"
-        />
-        <img src={pokemonDetailsData?.sprites.back_default} alt="back sprite" />
-      </div>
-      <div>
-        {pokemonDetailsData?.stats.map((stat) => (
-          <div key={stat.stat.name}>
-            {stat.stat.name}: {stat.base_stat}
+      {pokemonDetail ? (
+        <div>
+          <div>{pokemonDetail.name}</div>
+          <div>
+            <img src={pokemonDetail.sprites.front_default} alt="front sprite" />
+            <img src={pokemonDetail.sprites.back_default} alt="back sprite" />
           </div>
-        ))}
-      </div>
-      <div>
-        <Link to="/">Back to list</Link>
-      </div>
+          <div>
+            {pokemonDetail.stats.map((stat) => (
+              <div key={stat.stat.name}>
+                {stat.stat.name}: {stat.base_stat}
+              </div>
+            ))}
+          </div>
+          <div>
+            <Link to="/">Back to list</Link>
+          </div>
+        </div>
+      ) : (
+        <p>Error</p>
+      )}
     </div>
   );
 };
