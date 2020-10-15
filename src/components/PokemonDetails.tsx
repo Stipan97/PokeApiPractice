@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { loadPokemonDetails } from '../actions/pokemonDetailsAction';
-import { ServerResponseDetails } from '../models/Pokemon';
 import { RootReducerState } from '../store/store';
 
 interface PokemonDetailsProps {
@@ -13,9 +12,10 @@ export const PokemonDetails: FC = () => {
   const { name } = useParams<PokemonDetailsProps>();
 
   const dispatch = useDispatch();
-  const pokemonDetailsData = useSelector(
-    (state: RootReducerState) => state.details.data,
+  const pokemonDetailsState = useSelector(
+    (state: RootReducerState) => state.details,
   );
+  const pokemonDetailsData = pokemonDetailsState.data;
 
   let pokemonDetail = pokemonDetailsData?.find((obj) => {
     return obj.name === name;
@@ -23,14 +23,16 @@ export const PokemonDetails: FC = () => {
 
   console.log(pokemonDetailsData);
 
-  console.log(pokemonDetail);
-
   const fetchData = (name: string) => {
+    console.log('pozvo ' + name);
+
     dispatch(loadPokemonDetails(name));
   };
 
   if (!pokemonDetail) {
-    fetchData(name);
+    if (!pokemonDetailsState.isLoading) {
+      fetchData(name);
+    }
   }
 
   return (
