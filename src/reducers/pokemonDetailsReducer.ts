@@ -4,12 +4,13 @@ import {
   GET_DETAILS,
   GET_ERROR_DETAILS,
   GET_LOADING_DETAILS,
+  UNSET_ERROR_DETAILS,
 } from '../models/types';
 
 export interface PokemonsDetailsState {
   data: ServerResponseDetails[];
   isLoading: boolean;
-  error?: string;
+  error?: boolean;
 }
 
 const INITIAL_STATE: PokemonsDetailsState = {
@@ -27,20 +28,28 @@ export const pokemonDetailsReducer = (
       return {
         data: state.data?.concat(action.payload),
         isLoading: false,
-        error: '',
+        error: false,
       };
     }
     case GET_LOADING_DETAILS: {
       return {
         data: state.data,
         isLoading: true,
-        error: '',
+        error: false,
       };
     }
     case GET_ERROR_DETAILS: {
       return {
+        data: state.data,
         isLoading: false,
-        error: 'Unable to find pokemon',
+        error: true,
+      };
+    }
+    case UNSET_ERROR_DETAILS: {
+      return {
+        data: state.data,
+        isLoading: false,
+        error: false,
       };
     }
     default: {

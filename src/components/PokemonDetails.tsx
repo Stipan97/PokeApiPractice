@@ -29,9 +29,12 @@ export const PokemonDetails: FC = () => {
     dispatch(loadPokemonDetails(name));
   };
 
-  if (!pokemonDetail) {
-    if (!pokemonDetailsState.isLoading) {
-      fetchData(name);
+  console.log(pokemonDetailsState.error);
+  if (!pokemonDetailsState.error) {
+    if (!pokemonDetail) {
+      if (!pokemonDetailsState.isLoading) {
+        fetchData(name);
+      }
     }
   }
 

@@ -4,6 +4,7 @@ import {
   GET_DETAILS,
   GET_ERROR_DETAILS,
   GET_LOADING_DETAILS,
+  UNSET_ERROR_DETAILS,
 } from '../models/types';
 import { pokemonDetailsReducer } from '../reducers/pokemonDetailsReducer';
 
@@ -20,10 +21,15 @@ interface ErrorPokemonDetailsAction {
   type: typeof GET_ERROR_DETAILS;
 }
 
+interface UnsetErrorPokemonDetailsAction {
+  type: typeof UNSET_ERROR_DETAILS;
+}
+
 export type PokemonDetailsActions =
   | GetPokemonDetailsAction
   | LoadingPokemonDetailsAction
-  | ErrorPokemonDetailsAction;
+  | ErrorPokemonDetailsAction
+  | UnsetErrorPokemonDetailsAction;
 
 export const loadPokemonDetails = (
   name: string,
@@ -47,7 +53,9 @@ export const loadPokemonDetails = (
         payload: responseData,
       });
     } catch (error) {
-      //stavi dispatch za error details
+      dispatch({
+        type: GET_ERROR_DETAILS,
+      });
     }
   };
 };

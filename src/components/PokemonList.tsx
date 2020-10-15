@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loadPokemonList } from '../actions/pokemonListActions';
+import { UNSET_ERROR_DETAILS } from '../models/types';
 import { RootReducerState } from '../store/store';
 
 export const PokemonsList: FC = () => {
@@ -23,13 +24,22 @@ export const PokemonsList: FC = () => {
     }
   }
 
+  const onClickChangeErrorOnDetails = () => {
+    dispatch({ type: UNSET_ERROR_DETAILS });
+  };
+
   return (
     <div className={'pokemon-list-wrapper'}>
       {pokemonsListData ? (
         pokemonsListData.results?.map((pokemon) => (
           <div className={'pokemon-list-item'} key={pokemon.name}>
             {pokemon.name}
-            <Link to={`/pokemon/${pokemon.name}`}>ViewLink</Link>
+            <Link
+              onClick={onClickChangeErrorOnDetails}
+              to={`/pokemon/${pokemon.name}`}
+            >
+              ViewLink
+            </Link>
           </div>
         ))
       ) : (
