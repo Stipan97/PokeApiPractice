@@ -3,13 +3,13 @@ import { ServerResponseDetails } from '../models/Pokemon';
 import { GET_DETAILS } from '../models/types';
 
 export interface PokemonsDetailsState {
-  data?: ServerResponseDetails;
+  data?: ServerResponseDetails[];
   isLoading: boolean;
   error?: string;
 }
 
 const INITIAL_STATE: PokemonsDetailsState = {
-  data: undefined,
+  data: [],
   isLoading: false,
   error: undefined,
 };
@@ -21,7 +21,7 @@ export const pokemonDetailsReducer = (
   switch (action.type) {
     case GET_DETAILS: {
       return {
-        data: action.payload,
+        data: state.data?.concat(action.payload),
         isLoading: false,
         error: '',
       };
